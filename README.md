@@ -5,9 +5,9 @@
 
 Project includes the implementation of  recognition of chess pieces and chess board  based on the recordings of the games played on the [chess.com](https://www.chess.com/)  website.
 
-Each move of piece is detected. Move is saved to the list keeping the history of the recorded game. Additionally script is evaluating matieral imbalances. After the game is finished, it writes its game history to a file with the .txt extension.
+Each move of piece is detected. Move is saved to the list,which is keeping the history of the recorded game. Additionally script is evaluating matieral imbalances. After the game is finished, it writes its game history to a file with the .txt extension.
 <!-- USAGE EXAMPLES -->
-## Recognition of figures and a chessboard
+## Recognition of pieces and a chessboard
 <p align="center">
 <img src="https://user-images.githubusercontent.com/76798626/122093609-866a2f00-ce0b-11eb-8f1d-bb3869d43260.gif">
 </p>
