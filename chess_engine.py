@@ -3,14 +3,11 @@ import numpy as np
 
 class Engine:
 	def __init__(self):
-		self.__white_points=39
-		self.__black_points=39
-		self.__match_evaluation = self.__white_points - self.__black_points
+		self.__match_evaluation = 0
 		self.__game_evaluation_progres = [self.__match_evaluation]
 		self.last_board ={}
-		self.__dict_board={}
 		self.history = []
-		self.captures=0
+
 	def vision_output(self, board):
 		board= board.copy()
 		if not self.last_board:
@@ -19,13 +16,12 @@ class Engine:
 		try:
 			for key,value in board.items():                    # Recording only new moves
 				if self.last_board[key]!=value and value !=' ':
-					if self.last_board[key] != value:
-						self.captures+=1
+					if(self.last_board[key][0] == value[0]): # Additional filltering vision output
+						self.history.pop()
 					self.history.append(value+key)
 					sum_of_points = []
 					for keys in board.keys():
 						sum_of_points.append(self.__Piece_value(board[keys]))
-					print(sum(sum_of_points))
 					self.__game_evaluation_progres.append(sum(sum_of_points))
 					self.last_board = board
 		except:
@@ -48,11 +44,19 @@ class Engine:
 		}
 		return Pieces[name]
 	def game_evaluation_plot(self):
-		print(self.history)
-		print(self.captures)
+		print("Game History "+str(self.history))
+		textfile = open("Last_Game_History.txt", "w")
+		textfile.write("index__Move__Evaluation"+"\n")
+		for index,(element,eval) in enumerate(zip(self.history,self.__game_evaluation_progres)):
+			textfile.write(str(index)+"____"+element +"____"+str(eval)+ "\n")
+		textfile.close()
 		x = np.linspace(0, len(self.__game_evaluation_progres), num=len(self.__game_evaluation_progres))
 		plt.xticks(np.arange(0, len(self.__game_evaluation_progres)+10, 1))
 		plt.plot(x, self.__game_evaluation_progres, label="Chess Evaluation during recorded Game")
 		plt.grid(True)
+		plt.ylabel(" Score ")
+		plt.xlabel(" Move ")
+		plt.legend(loc="lower right")
+		plt.text(-1,- 50, str(self.history), horizontalalignment='center', verticalalignment='center')
 		plt.title("Chess Evaluation during recorded Game")
 		plt.show()
